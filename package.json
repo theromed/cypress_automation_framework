@@ -9,12 +9,13 @@
     "triggerAllTests-chrome": "npx cypress run --browser chrome --headed",
     "triggerAllTests-dashboard": "npx cypress run --record --key 6aa39e6e-aade-44e2-9c77-59decf447397",
     "triggerAllTests-webdriveruni": "npx cypress run --spec cypress/e2e/webdriver-uni",
+    "triggerAllTests-webdriveruni-dashboard": "npx cypress run --spec cypress/e2e/webdriver-uni --record --key 6aa39e6e-aade-44e2-9c77-59decf447397",
     "junit-merge": "npx junit-merge -d cypress/results -o cypress/results/results.xml ",
     "delete-junit-report": "rm -rf cypress/results/results.xml",
     "delete-results": "rm -rf cypress/results/*.xml",
     "mochawesome-merge": "npx mochawesome-merge cypress/results/*.json > mochawesome.json && npx marge mochawesome.json",
     "delete-mochawesome-report": "rm -rf mochawesome-report/* || true",
-    "cypress-multi-browser": "npm run triggerAllTests-webdriveruni -- --browser electron --headed & npm run triggerAllTests-webdriveruni -- --browser chrome --headed "
+    "cypress-multi-browser": "npm run triggerAllTests-webdriveruni -- --browser electron --headed & npm run triggerAllTests-webdriveruni -- --browser chrome --headed"
 
   },
   "author": "Romed",

@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+    stages {
+        stage('Set Environment') {
+            steps {
+                script {
+                    // Установка кодировки для всех последующих команд
+                    sh 'export LANG=en_US.UTF-8'
+                }
+            }
+        }
+    }
+}
+
