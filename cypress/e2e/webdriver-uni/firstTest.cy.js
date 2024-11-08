@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 
 describe('template spec',  {retries:{
   runMode:3,
-  openMode:4
+  openMode:5
 }
 },
  () => {
