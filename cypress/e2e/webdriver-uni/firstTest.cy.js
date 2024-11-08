@@ -2,8 +2,8 @@
 import { faker } from '@faker-js/faker' 
 
 describe('template spec',  {retries:{
-  runMode:2,
-  openMode:2
+  runMode:3,
+  openMode:4
 }
 },
  () => {
