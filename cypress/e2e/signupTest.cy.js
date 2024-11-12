@@ -13,10 +13,10 @@ describe('test', () => {
     //const email = faker.internet.email()
     //const password = faker.internet.password()
 
-    before(() => { cy.fixture('userCredentials').then((userCreds) => { globalThis.userCreds = userCreds; }); });
+    before(() => { cy.fixture('userCredentials').then((user) => { globalThis.userCreds = userCreds; }); });
     
     beforeEach(() => {
-      cy.getAuthToken(userCreds.email, userCreds.password).then(() => {
+      cy.getAuthToken(user.email, user.password).then(() => {
           cy.get('@userToken').then((token) => {
             cy.visit('/', {
               onBeforeLoad: (browser) => {
@@ -53,12 +53,12 @@ describe('test', () => {
         mainPage_PO.closeCookiesPopup()
         mainPage_PO.closeWelcomePopup()
         mainPage_PO.proceedToLoginPage()
-        loginPage_PO.fillLoginForm(userCreds.email, userCreds.password)
+        loginPage_PO.fillLoginForm(user.email, user.password)
 
     })
 
     it("LogIn using API call", ()=>{
-        const requestBody = { email: userCreds.email, password: userCreds.password }; 
+        const requestBody = { email: user.email, password: user.password }; 
         logIn(requestBody).then((response) => { 
             expect(response.status).to.eq(200); 
             expect(response.body.authentication.umail).to.eq(userCreds.email)

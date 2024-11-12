@@ -12,8 +12,14 @@ class mainPage_Po {
         cy.get('#navbarLoginButton').click()
     }
 
-    checkUserLogin(){
-        cy.get(".fa-layers-counter").contains(0)
+    checkUserLogin(value){
+        cy.get(".fa-layers-counter").contains(value)
     }
+
+    searchProduct(productName){
+        cy.get("#searchQuery").click()
+        cy.get(".mat-search_field").type(`${productName}{enter}`)
+    }
+
 }
 export default mainPage_Po;
