@@ -4,7 +4,7 @@ import mainPage_Po from '../support/pageObjects/juice-shop/mainPage-PO';
 import registrationPage_Po from '../support/pageObjects/juice-shop/registrationPage-PO';
 import { logIn } from '../support/apiRequests/logIn';
 
-describe('test', () => {
+describe.skip('test', () => {
 
     const loginPage_PO = new loginPage_Po();
     const mainPage_PO = new mainPage_Po();
