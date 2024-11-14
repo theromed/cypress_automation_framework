@@ -23,7 +23,6 @@ describe('Search page tests', () => {
               });
             });
         });
-        cy.ClosePopups()
     });
     
     it('User is able to search the product', () => {

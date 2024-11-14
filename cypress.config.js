@@ -10,8 +10,10 @@ module.exports = defineConfig({
       baseUrl: "https://demo.owasp-juice.shop/",
   chromeWebSecurity: false,
   experimentalSessionAndOrigin: true,
+  supportFile: 'cypress/support/commands.js',
   pageLoadTimeout: 400000,
   reporter: "cypress-multi-reporters",
+  failOnStatusCode: false,
   reporterOptions: {
     configFile: "reporter-config.json"
   },

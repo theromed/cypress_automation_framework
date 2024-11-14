@@ -1,13 +1,14 @@
 class basketPage_Po {
     validateBasket(email, productName, productPrice) {
-        cy.get("input[id='emailControl']").type(email)
-        cy.get("input[id='passwordControl']").type(password)
-        cy.get("input[id='repeatPasswordControl']").type(password)
-        cy.get("[name='securityQuestion']").click()
-        cy.get("#mat-option-" + securityQuestionNumber).click()
-        cy.get("input[id='securityAnswerControl']").type(securityAnswer)
-        cy.get("button[type='submit']").click()
 
+        cy.get('h1').should('contain', email)
+        cy.get('.mat-row > .cdk-column-product').should('contain', productName)
+        cy.get('.mat-row > .cdk-column-price').should('contain', productPrice)
+
+    }
+
+    cleanBasket(){
+        cy.get('.cdk-column-remove > .mat-focus-indicator').click()
     }
 
 }

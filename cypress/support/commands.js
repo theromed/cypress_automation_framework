@@ -49,12 +49,17 @@ Cypress.Commands.add('getAuthToken', (email, password) => {
       method: 'POST',
       url: 'rest/user/login',
       body: requestBody,
+      failOnStatusCode: false,
       headers: {
         'Content-Type': 'application/json'
       }
-    }).its('body.authentication.token').then(token => {
+    }).then(response => { 
+      expect(response.status).to.eq(200); 
+      expect(response.body).to.have.property('authentication'); 
+      expect(response.body.authentication).to.have.property('token'); 
+      const token = response.body.authentication.token; 
       cy.wrap(token).as('userToken');
-    });
+    })
   });
 
 Cypress.Commands.add('performLogin', (email, password) => { 
@@ -65,14 +70,33 @@ Cypress.Commands.add('performLogin', (email, password) => {
 });
 
 Cypress.Commands.add("ClosePopups", ()=>{
-  mainPage_PO.closeCookiesPopup();
-  mainPage_PO.closeWelcomePopup();
- 
+    //mainPage_PO.closeWelcomePopup();
+  
+  //mainPage_PO.closeCookiesPopup();
+  cy.wait(1000)
+  mainPage_PO.closeCookiesPopup2();
+
+  mainPage_PO.closeWelcomePopup2()
+
 })
+
+Cypress.Commands.add("ClosePopups2", () => {
+  cy.get('body').then($body => {
+    // Проверяем наличие и видимость попапа cookies
+    if ($body.find('#cookie-popup').length > 0 && $body.find('#cookie-popup').is(':visible')) {
+      mainPage_PO.closeCookiesPopup();
+    }
+    // Проверяем наличие и видимость приветственного попапа
+    if ($body.find('div[aria-label="cookieconsent"]').length > 0 && $body.find('div[aria-label="cookieconsent"]').is(':visible')) {
+      mainPage_PO.closeWelcomePopup();
+    }
+  });
+});
+
 
 Cypress.Commands.add("ReregisterTestUser", (email, password,securityQuestionNumber, securityAnswer )=>{
     cy.visit('/')
-    cy.ClosePopups()
+    //  cy.ClosePopups()
     mainPage_PO.proceedToLoginPage();
     loginPage_PO.newCustomerLink();
     registrationPage_PO.fillRegistrationForm(email, password, securityQuestionNumber, securityAnswer);
@@ -81,12 +105,45 @@ Cypress.Commands.add("ReregisterTestUser", (email, password,securityQuestionNumb
 
 Cypress.Commands.add('ensureTestUserExists', (email, password, securityQuestionNumber, securityAnswer) => { 
   // Пробуем выполнить логин 
-  cy.performLogin(email, password); 
+  cy.visit('/')
+  cy.ClosePopups()
+  mainPage_PO.proceedToLoginPage();
+  loginPage_PO.fillLoginForm(email, password); 
   // Проверяем наличие ошибки при логине 
-  cy.get('body').then(($body) => { if ($body.find('.error ng-star-inserted').length > 0) { 
-    // Замените '.error' на ваш селектор ошибки 
-    cy.reregisterTestUser(email, password, securityQuestionNumber, securityAnswer); 
-    } 
-  } );
+  cy.wait(2000)
+    cy.url().then((url) => {
+      if (url.includes('login')) {
+        cy.get('body').then(($body) => { 
+          cy.get('.error.ng-star-inserted').invoke('text').then((errorText) => 
+            { if (errorText.includes('Invalid email or password.')) {
+               cy.ReregisterTestUser(email, password, securityQuestionNumber, securityAnswer); 
+              } else{
+                cy.log('Логин прошел успешно, регистрация не требуется');
+              }
+            }); 
+          });
+      }  else {
+        cy.log('Находимся на другой странице');
+        // Логика для других страниц
+      }
+    });
+    
+
+
 })
+
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // Проверяем, содержит ли ошибка статус 401
+  if (err.message.includes('401') || (err.response && err.response.status === 401)) {
+    // Возвращаем false, чтобы предотвратить остановку теста
+    return false;
+  }
+
+  // Разрешаем обработку других ошибок
+  return true;
+});
+
+
+
   
