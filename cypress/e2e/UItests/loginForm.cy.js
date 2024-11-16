@@ -1,4 +1,3 @@
-// cypress/e2e/loginForm.cy.js
 import loginPage_Po from '../../support/pageObjects/juice-shop/loginPage-PO';
 import mainPage_Po from '../../support/pageObjects/juice-shop/mainPage-PO';
 

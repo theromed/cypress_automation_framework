@@ -1,28 +1,18 @@
 import 'cypress-file-upload';
 
 describe('Test related to prfile page', () => {
-
-
-    before(() => {
+      
+  before(() => {
         cy.fixture('userCredentials').then((user) => {
           globalThis.user = user;
-        });
       });
+  });
 
-      beforeEach(() => {
+  beforeEach(() => {
         cy.ensureTestUserExists(user.email, user.password, user.securityQuestionNumber, user.securityAnswer);
-        cy.getAuthToken(user.email, user.password).then(() => {
-          cy.get('@userToken').then((token) => {
-            cy.visit('/', {
-              onBeforeLoad: (browser) => {
-                browser.localStorage.setItem('token', token);
-              }
-            });
-          });
-        });
-      });
+  });
 
-    it('User is able change the profile username and image', () => {
+  it('User is able change the profile username and image', () => {
         
         cy.get('#navbarAccount').click()
         cy.get('button[aria-label="Go to user profile"]').click()
@@ -33,10 +23,7 @@ describe('Test related to prfile page', () => {
         cy.get('.img-rounded').invoke('attr', 'src').should('match', /assets\/public\/images\/uploads\/22\.jpg/);
         cy.get('#username').clear()
         cy.get('#submit').click()
-        //.should('have.attr', 'src').and('match', "assets/public/images/uploads/23.jpg");
-
     });
-    
 });
 
 

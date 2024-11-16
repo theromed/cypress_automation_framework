@@ -1,7 +1,6 @@
 import { logIn } from '../../support/apiRequests/logIn';
 import mainPage_Po from '../../support/pageObjects/juice-shop/mainPage-PO';
 
-
 describe('API Tests', () => {
 
     const mainPage_PO = new mainPage_Po();
@@ -13,9 +12,9 @@ describe('API Tests', () => {
     });
 
     it("LogIn using API call", () => {
-        const requestBody = { email: user.email, password: user.password }; 
-        logIn(requestBody).then((response) => { 
-            expect(response.status).to.eq(200); 
+        const requestBody = { email: user.email, password: user.password };
+        logIn(requestBody).then((response) => {
+            expect(response.status).to.eq(200);
             expect(response.body.authentication.umail).to.eq(user.email);
             expect(response.body.authentication.token).to.not.be.empty;
         });

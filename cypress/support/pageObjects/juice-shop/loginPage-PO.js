@@ -29,9 +29,5 @@ class loginPage_Po {
         cy.get("input[type='checkbox'][id='rememberMe-input']").check({force: true})
         cy.get("button[type='submit'][id='loginButton']").click()
     }
-
-
-
-
 }
 export default loginPage_Po;

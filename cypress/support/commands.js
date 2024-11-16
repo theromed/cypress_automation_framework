@@ -70,29 +70,12 @@ Cypress.Commands.add('performLogin', (email, password) => {
 });
 
 Cypress.Commands.add("ClosePopups", ()=>{
-    //mainPage_PO.closeWelcomePopup();
-  
-  //mainPage_PO.closeCookiesPopup();
   cy.wait(1000)
-  mainPage_PO.closeCookiesPopup2();
+  mainPage_PO.closeCookiesPopup();
 
-  mainPage_PO.closeWelcomePopup2()
+  mainPage_PO.closeWelcomePopup()
 
 })
-
-Cypress.Commands.add("ClosePopups2", () => {
-  cy.get('body').then($body => {
-    // Проверяем наличие и видимость попапа cookies
-    if ($body.find('#cookie-popup').length > 0 && $body.find('#cookie-popup').is(':visible')) {
-      mainPage_PO.closeCookiesPopup();
-    }
-    // Проверяем наличие и видимость приветственного попапа
-    if ($body.find('div[aria-label="cookieconsent"]').length > 0 && $body.find('div[aria-label="cookieconsent"]').is(':visible')) {
-      mainPage_PO.closeWelcomePopup();
-    }
-  });
-});
-
 
 Cypress.Commands.add("ReregisterTestUser", (email, password,securityQuestionNumber, securityAnswer )=>{
     cy.visit('/')
@@ -124,7 +107,6 @@ Cypress.Commands.add('ensureTestUserExists', (email, password, securityQuestionN
           });
       }  else {
         cy.log('Находимся на другой странице');
-        // Логика для других страниц
       }
     });
     
@@ -134,13 +116,9 @@ Cypress.Commands.add('ensureTestUserExists', (email, password, securityQuestionN
 
 
 Cypress.on('uncaught:exception', (err, runnable) => {
-  // Проверяем, содержит ли ошибка статус 401
   if (err.message.includes('401') || (err.response && err.response.status === 401)) {
-    // Возвращаем false, чтобы предотвратить остановку теста
     return false;
   }
-
-  // Разрешаем обработку других ошибок
   return true;
 });
 

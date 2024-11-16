@@ -14,15 +14,7 @@ describe('Search page tests', () => {
 
     beforeEach(() => {
       cy.ensureTestUserExists(user.email, user.password, user.securityQuestionNumber, user.securityAnswer);
-        cy.getAuthToken(user.email, user.password).then(() => {
-            cy.get('@userToken').then((token) => {
-              cy.visit('/', {
-                onBeforeLoad: (browser) => {
-                  browser.localStorage.setItem('token', token);
-                }
-              });
-            });
-        });
+
     });
     
     it('User is able to search the product', () => {

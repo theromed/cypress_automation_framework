@@ -14,7 +14,5 @@ class searchResultsPage_Po {
         cy.get('button[aria-label="Add to Basket"]').click()
     }
 
-    
-
 }
 export default searchResultsPage_Po;
