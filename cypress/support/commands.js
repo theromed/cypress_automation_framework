@@ -19,42 +19,31 @@
 //
 // -- This is a dual command --
 // Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-
-Cypress.Commands.add("selectProduct", productName =>{
-    cy.get('.fixed_wrapper .prdocutname').each(($el, index, $list)=>{
-        if($el.text().includes(productName)){
-            cy.wrap($el).click()
-        }
-    })
-})
-
-
-Cypress.Commands.add("AddProductToBasket", productName =>{
-    cy.get('.fixed_wrapper .prdocutname').each(($el, index, $list)=>{
-        if($el.text() === productName){
-            cy.get(".productcart").eq(index).click()
-        }
-    })
-})
-
-Cypress.Commands.add("webdriverUni_ContactForm_Submission", (firstName, lastName, email, comment, $selector, textToLocate) => {
-    cy.get('[name="first_name"]').type(firstName);
-    cy.get('[name="last_name"]').type(lastName);
-    cy.get('[name="email"]').type(email)
-    cy.get('textarea.feedback-input').type(comment)
-    cy.get('[type="submit"]').click();
-    cy.get($selector).contains(textToLocate)
-})
-
-Cypress.Commands.add("navigateTo_webdriverURL_homepage", ()=>{
-    cy.visit("/")
-})
-
-Cypress.Commands.add("navigateTo_webdriverURL_Checkbox_page", ()=>{
-    cy.visit("/" + "/Dropdown-Checkboxes-RadioButtons/index.html")
-})
-
-
-
+//
+//
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("GenerateUserEmail", domain=>{
+
+    const emailName  = Math.random().toString(36).substring(2);
+    const fullEmail = `${emailName}${domain}`; 
+    // Используем cy.wrap для возврата значения внутри команды 
+    return cy.wrap(fullEmail);
+})
+
+
+Cypress.Commands.add('getAuthToken', (email, password) => {
+    const requestBody = { email: userCreds.email, password: userCreds.password }; 
+    return cy.request({
+      method: 'POST',
+      url: 'rest/user/login',
+      body: requestBody,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).its('body.authentication.token').then(token => {
+      cy.wrap(token).as('userToken');
+    });
+  });
+  

@@ -2,12 +2,12 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   projectId: 'vnmrn7',
-  e2e: {
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
-    },
-  specPattern: "cypress/e2e/**/*.{js,jsx,ts,tsx,feature}",
-  baseUrl: "https://www.webdriveruniversity.com",
+      e2e: {
+        setupNodeEvents(on, config) {
+          // implement node event listeners here
+        },
+      specPattern: "cypress/e2e/**/*.{js,jsx,ts,tsx,feature}",
+      baseUrl: "https://demo.owasp-juice.shop/",
   chromeWebSecurity: false,
   experimentalSessionAndOrigin: true,
   pageLoadTimeout: 120000,
